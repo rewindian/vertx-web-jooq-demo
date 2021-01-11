@@ -4,7 +4,6 @@ import com.xxx.web.datasource.DataSourceHolder;
 import org.jooq.Configuration;
 import org.jooq.ConnectionProvider;
 import org.jooq.SQLDialect;
-import org.jooq.conf.Settings;
 import org.jooq.impl.DataSourceConnectionProvider;
 import org.jooq.impl.DefaultConfiguration;
 
@@ -23,7 +22,6 @@ public class DaoConfigurationHolder {
         Configuration configuration = new DefaultConfiguration();
         configuration.set(SQLDialect.MYSQL);
         configuration.set(connectionProvider);
-        configuration.set(new Settings());
         daoConfiguration = configuration;
     }
 

@@ -13,4 +13,10 @@ import io.vertx.core.json.JsonObject;
 public interface OrderService {
 
     void findOrderAndItemById(Long orderId, Handler<AsyncResult<JsonObject>> resultHandler);
+
+    void listOrderPage(Integer current, Handler<AsyncResult<JsonObject>> resultHandler);
+
+    void deleteOrder(Long orderId, Handler<AsyncResult<Void>> resultHandler);
+
+    void saveOrder(JsonObject json, Handler<AsyncResult<JsonObject>> resultHandler);
 }

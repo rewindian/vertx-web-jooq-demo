@@ -43,15 +43,15 @@ public class AppMain {
             JsonObject customConfig = envConfig.getJsonObject("custom");
             Vertx vertx = Vertx.vertx(new VertxOptions(vertxConfig));
             VertxUtil.init(vertx);
-            Router router = new RouterHandlerFactory(customConfig.getString("routerLocations"), serverConfig.getString("contextPath")).createRouter();
-            DeployVertxServer.startDeploy(router, customConfig.getString("handlerLocations"), serverConfig.getInteger("port"),
-                    customConfig.getInteger("asyncServiceInstances"), env);
             //初始化数据源
             DataSourceHolder.init(dataSourceConfig);
             //初始化jooq dao配置
             DaoConfigurationHolder.init();
-            //初始化
+            //初始化dao
             JooqDaoHolder.init(customConfig.getString("daoLocations"));
+            Router router = new RouterHandlerFactory(customConfig.getString("routerLocations"), serverConfig.getString("contextPath")).createRouter();
+            DeployVertxServer.startDeploy(router, customConfig.getString("handlerLocations"), serverConfig.getInteger("port"),
+                    customConfig.getInteger("asyncServiceInstances"), env);
         });
 
     }

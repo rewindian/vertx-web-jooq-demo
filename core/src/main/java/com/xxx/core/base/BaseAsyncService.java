@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseAsyncService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public String getAddress() {
         String className = this.getClass().getName();
