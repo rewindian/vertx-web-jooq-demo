@@ -1,0 +1,52 @@
+{
+  "dev": {
+    "server": {
+      "port": 8088,
+      "contextPath": "/demo"
+    },
+    "vertx": {
+      "eventLoopPoolSize": 2,
+      "workerPoolSize": 20,
+      "blockedThreadCheckInterval": 999999999,
+      "maxEventLoopExecuteTime": 999999999,
+      "maxWorkerExecuteTime": 999999999,
+      "eventBusOptions": {
+        "connectTimeout": 1800000
+      }
+    },
+    "dataSource": {
+      "driverClassName": "com.mysql.jdbc.Driver",
+      "jdbcUrl": "jdbc:mysql://localhost:3306/demo?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=false",
+      "username": "root",
+      "password": "admin123",
+      "maximumPoolSize": 8
+    },
+    "custom": {
+      "asyncServiceInstances": 1,
+      "routerLocations": "com.xxx.web.rest",
+      "handlerLocations": "com.xxx.web.service",
+      "daoLocations": "com.xxx.web.jooq.tables.daos"
+    }
+  },
+  "prod": {
+    "server": {
+      "port": 8108,
+      "contextPath": "/demo"
+    },
+    "http": {
+      "maxWebSocketFrameSize": 1000000
+    },
+    "vertx": {
+      "eventLoopPoolSize": 4,
+      "workerPoolSize": 40,
+      "eventBusOptions": {
+        "connectTimeout": 6000
+      }
+    },
+    "custom": {
+      "asyncServiceInstances": 1,
+      "routerLocations": "com.xxx.web.rest",
+      "handlerLocations": "com.xxx.web.service"
+    }
+  }
+}

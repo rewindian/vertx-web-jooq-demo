@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<configuration>
+    <property name="APPDIR" value="vertx-demo"/>
+    <!--控制台日志 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                <!--日志输出格式-->
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="fileInfoLog"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder> <!--滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> <!--路径 -->
+            <fileNamePattern>logs/${APPDIR}/info.%d.log</fileNamePattern>
+            <!-- 日志保存15天，超过15天自动删除 -->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="fileErrorLog"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder> <!--滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> <!--路径 -->
+            <fileNamePattern>logs/${APPDIR}/error.%d.log</fileNamePattern>
+            <!-- 日志保存15天，超过15天自动删除 -->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root>
+        <!-- 日志级别 -->
+        <level value="debug"/>
+        <appender-ref ref="consoleAppender"/>
+<!--        <appender-ref ref="fileInfoLog"/>-->
+<!--        <appender-ref ref="fileErrorLog"/>-->
+    </root>
+</configuration>
