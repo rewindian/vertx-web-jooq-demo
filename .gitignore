@@ -1,0 +1,9 @@
+/.idea
+
+/logs
+
+*.iml
+
+/src/main/generated
+
+/target
