@@ -10,9 +10,12 @@ import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.shareddata.LocalMap;
+import io.vertx.core.shareddata.SharedData;
 import io.vertx.ext.web.Router;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -43,16 +46,34 @@ public class AppMain {
             JsonObject customConfig = envConfig.getJsonObject("custom");
             Vertx vertx = Vertx.vertx(new VertxOptions(vertxConfig));
             VertxUtil.init(vertx);
-            //初始化数据源
-            DataSourceHolder.init(dataSourceConfig);
-            //初始化jooq dao配置
-            DaoConfigurationHolder.init();
-            //初始化dao
-            JooqDaoHolder.init(customConfig.getString("daoLocations"));
-            Router router = new RouterHandlerFactory(customConfig.getString("routerLocations"), serverConfig.getString("contextPath")).createRouter();
-            DeployVertxServer.startDeploy(router, customConfig.getString("handlerLocations"), serverConfig.getInteger("port"),
-                    customConfig.getInteger("asyncServiceInstances"), env);
+            //配置保存在共享数据中
+            SharedData sharedData = vertx.sharedData();
+            LocalMap<String, Object> localMap = sharedData.getLocalMap("demo");
+            localMap.put("env", env);
+            localMap.put("envConfig", envConfig);
+            //先初始化再发布Http服务
+            vertx.executeBlocking(p -> {
+                //顺序不能乱
+                try {
+                    //初始化数据源
+                    DataSourceHolder.init(dataSourceConfig);
+                    //初始化jooq dao配置
+                    DaoConfigurationHolder.init();
+                    //初始化dao
+                    JooqDaoHolder.init(customConfig.getString("daoLocations"));
+                    p.complete();
+                } catch (Exception e) {
+                    p.fail(e);
+                }
+            }).onComplete(ar2 -> {
+                if (ar2.succeeded()) {
+                    Router router = new RouterHandlerFactory(customConfig.getString("routerLocations"), serverConfig.getString("contextPath")).createRouter();
+                    DeployVertxServer.startDeploy(router, customConfig.getString("handlerLocations"), serverConfig.getInteger("port"),
+                            customConfig.getInteger("asyncServiceInstances"));
+                } else {
+                    LOGGER.error(ar.cause().getMessage(), ar.cause());
+                }
+            });
         });
-
     }
 }

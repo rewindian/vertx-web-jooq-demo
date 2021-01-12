@@ -14,10 +14,10 @@ public class DeployVertxServer {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DeployVertxServer.class);
 
-    public static void startDeploy(Router router, String asyncServiceImplPackages, int port, int asyncServiceInstances, String env) {
+    public static void startDeploy(Router router, String asyncServiceImplPackages, int port, int asyncServiceInstances) {
         LOGGER.debug("Start Deploy....");
         LOGGER.debug("Start registry router....");
-        VertxUtil.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router, port, env));
+        VertxUtil.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router, port));
         LOGGER.debug("Start registry service....");
         if (asyncServiceInstances < 1) {
             asyncServiceInstances = 1;

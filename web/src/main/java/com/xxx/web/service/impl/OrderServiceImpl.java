@@ -37,13 +37,19 @@ public class OrderServiceImpl extends BaseAsyncService implements OrderService {
         CompositeFuture.all(future1, future2).onSuccess(ar -> {
             if (ar.succeeded()) {
                 TOrder tOrder = ar.resultAt(0);
-                JsonObject result = tOrder.toJson();
-                List<TOrderItem> tOrderItemList = ar.resultAt(1);
-                result.put("children", PojoUtil.convertToArray(tOrderItemList));
-                resultHandler.handle(Future.succeededFuture(result));
+                if (null == tOrder) {
+                    resultHandler.handle(Future.succeededFuture(null));
+                } else {
+                    JsonObject result = tOrder.toJson();
+                    List<TOrderItem> tOrderItemList = ar.resultAt(1);
+                    result.put("children", PojoUtil.convertToArray(tOrderItemList));
+                    resultHandler.handle(Future.succeededFuture(result));
+                }
             } else {
                 handleException(ar.cause(), resultHandler);
             }
+        }).onFailure(error -> {
+            handleException(error, resultHandler);
         });
     }
 
