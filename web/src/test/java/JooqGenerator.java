@@ -27,7 +27,7 @@ public class JooqGenerator {
                         .withDriver("com.mysql.jdbc.Driver")
                         .withUrl("jdbc:mysql://localhost:3306/demo?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=false")
                         .withUser("root") //修改成自己的数据库
-                        .withPassword("123456"))
+                        .withPassword("admin123"))
                 .withGenerator(new Generator()
                         .withName("io.github.jklingsporn.vertx.jooq.generate.classic.ClassicJDBCVertxGenerator")
 //                        .withName("io.github.jklingsporn.vertx.jooq.generate.classic.ClassicReactiveVertxGenerator")

@@ -16,6 +16,6 @@ public final class AsyncServiceUtil {
 
     public static <T> T getAsyncServiceInstance(Class<T> asClazz) {
         String address = asClazz.getName();
-        return new ServiceProxyBuilder(VertxUtil.getVertxInstance()).setAddress(address).build(asClazz);
+        return new ServiceProxyBuilder(VertxHolder.getVertxInstance()).setAddress(address).build(asClazz);
     }
 }

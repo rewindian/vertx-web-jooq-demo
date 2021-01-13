@@ -4,7 +4,7 @@ import com.xxx.core.annotaions.RouteHandler;
 import com.xxx.core.annotaions.RouteMapping;
 import com.xxx.core.annotaions.RouteMethod;
 import com.xxx.core.util.ReflectionUtil;
-import com.xxx.core.util.RouterUtil;
+import com.xxx.core.util.VertxHolder;
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Route;
@@ -59,7 +59,7 @@ public class RouterHandlerFactory {
      * 开始扫描并注册handler
      */
     public Router createRouter() {
-        Router router = RouterUtil.getInstance();
+        Router router = Router.router(VertxHolder.getVertxInstance());
         router.route().handler(ctx -> {
             LOGGER.debug("The HTTP service request address information ===>path:{}, uri:{}, method:{}",
                     ctx.request().path(), ctx.request().absoluteURI(), ctx.request().method());

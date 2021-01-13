@@ -10,13 +10,9 @@ import java.util.Objects;
  * @author Ian
  * @date 2020/12/17
  */
-public final class VertxUtil {
+public final class VertxHolder {
 
     private static Vertx singletonVertx;
-
-    private VertxUtil() {
-
-    }
 
     public static void init(Vertx vertx) {
         Objects.requireNonNull(vertx, "未初始化Vertx");

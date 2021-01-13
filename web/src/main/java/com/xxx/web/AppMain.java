@@ -2,7 +2,7 @@ package com.xxx.web;
 
 import com.xxx.core.handlerfactory.RouterHandlerFactory;
 import com.xxx.core.util.DeployVertxServer;
-import com.xxx.core.util.VertxUtil;
+import com.xxx.core.util.VertxHolder;
 import com.xxx.web.dao.DaoConfigurationHolder;
 import com.xxx.web.dao.JooqDaoHolder;
 import com.xxx.web.datasource.DataSourceHolder;
@@ -45,7 +45,7 @@ public class AppMain {
             JsonObject dataSourceConfig = envConfig.getJsonObject("dataSource");
             JsonObject customConfig = envConfig.getJsonObject("custom");
             Vertx vertx = Vertx.vertx(new VertxOptions(vertxConfig));
-            VertxUtil.init(vertx);
+            VertxHolder.init(vertx);
             //配置保存在共享数据中
             SharedData sharedData = vertx.sharedData();
             LocalMap<String, Object> localMap = sharedData.getLocalMap("demo");

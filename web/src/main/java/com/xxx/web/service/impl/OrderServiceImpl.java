@@ -53,8 +53,6 @@ public class OrderServiceImpl extends BaseAsyncService implements OrderService {
             } else {
                 handleException(ar.cause(), resultHandler);
             }
-        }).onFailure(error -> {
-            handleException(error, resultHandler);
         });
     }
 

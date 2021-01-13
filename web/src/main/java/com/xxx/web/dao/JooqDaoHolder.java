@@ -1,8 +1,7 @@
 package com.xxx.web.dao;
 
 import com.xxx.core.util.ReflectionUtil;
-import com.xxx.core.util.VertxUtil;
-import com.xxx.web.jooq.tables.daos.TOrderDao;
+import com.xxx.core.util.VertxHolder;
 import io.vertx.core.Vertx;
 import io.vertx.serviceproxy.ServiceException;
 import org.jooq.Configuration;
@@ -28,7 +27,7 @@ public class JooqDaoHolder {
             try {
                 Constructor c1 = aClass.getDeclaredConstructor(new Class[]{Configuration.class, Vertx.class});
                 c1.setAccessible(true);
-                daoInstanceMap.put(aClass, c1.newInstance(new Object[]{DaoConfigurationHolder.getDaoConfiguration(), VertxUtil.getVertxInstance()}));
+                daoInstanceMap.put(aClass, c1.newInstance(new Object[]{DaoConfigurationHolder.getDaoConfiguration(), VertxHolder.getVertxInstance()}));
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

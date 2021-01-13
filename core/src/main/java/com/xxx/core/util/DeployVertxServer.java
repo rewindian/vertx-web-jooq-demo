@@ -17,26 +17,26 @@ public class DeployVertxServer {
     public static void startDeploy(Router router, String asyncServiceImplPackages, int port, int asyncServiceInstances) {
         LOGGER.debug("Start Deploy....");
         LOGGER.debug("Start registry router....");
-        VertxUtil.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router, port));
+        VertxHolder.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router, port));
         LOGGER.debug("Start registry service....");
         if (asyncServiceInstances < 1) {
             asyncServiceInstances = 1;
         }
         for (int i = 0; i < asyncServiceInstances; i++) {
-            VertxUtil.getVertxInstance().deployVerticle(new AsyncRegistryVerticle(asyncServiceImplPackages), new DeploymentOptions().setWorker(true));
+            VertxHolder.getVertxInstance().deployVerticle(new AsyncRegistryVerticle(asyncServiceImplPackages), new DeploymentOptions().setWorker(true));
         }
     }
 
     public static void startDeploy(Router router, String asyncServiceImplPackages, int asyncServiceInstances) {
         LOGGER.debug("Start Deploy....");
         LOGGER.debug("Start registry router....");
-        VertxUtil.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router));
+        VertxHolder.getVertxInstance().deployVerticle(new RouterRegistryVerticle(router));
         LOGGER.debug("Start registry service....");
         if (asyncServiceInstances < 1) {
             asyncServiceInstances = 1;
         }
         for (int i = 0; i < asyncServiceInstances; i++) {
-            VertxUtil.getVertxInstance().deployVerticle(new AsyncRegistryVerticle(asyncServiceImplPackages), new DeploymentOptions().setWorker(true));
+            VertxHolder.getVertxInstance().deployVerticle(new AsyncRegistryVerticle(asyncServiceImplPackages), new DeploymentOptions().setWorker(true));
         }
     }
 }
