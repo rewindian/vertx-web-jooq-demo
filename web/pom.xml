@@ -16,6 +16,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <vertx-jooq.version>6.1.0</vertx-jooq.version>
+        <hikari-cp.version>3.4.5</hikari-cp.version>
+        <mysql-driver.version>5.1.37</mysql-driver.version>
     </properties>
 
     <dependencies>
@@ -23,11 +26,6 @@
             <groupId>com.xxx</groupId>
             <artifactId>core</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -43,22 +41,22 @@
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
             <artifactId>vertx-jooq-classic-jdbc</artifactId>
-            <version>6.1.0</version>
+            <version>${vertx-jooq.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.jklingsporn</groupId>
             <artifactId>vertx-jooq-generate</artifactId>
-            <version>6.1.0</version>
+            <version>${vertx-jooq.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.37</version>
+            <version>${mysql-driver.version}</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.4.5</version>
+            <version>${hikari-cp.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
@@ -145,7 +143,6 @@
                     <outputDirectory>${project.build.directory}</outputDirectory>
                 </configuration>
             </plugin>
-
             <!--拷贝依赖 copy-dependencies-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -165,7 +162,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!--拷贝资源文件 copy-resources-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>

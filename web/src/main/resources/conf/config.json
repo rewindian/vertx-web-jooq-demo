@@ -53,7 +53,8 @@
     "custom": {
       "asyncServiceInstances": 1,
       "routerLocations": "com.xxx.web.rest",
-      "handlerLocations": "com.xxx.web.service"
+      "handlerLocations": "com.xxx.web.service",
+      "daoLocations": "com.xxx.web.jooq.tables.daos"
     }
   }
 }
