@@ -1,11 +1,13 @@
 package com.xxx.web.service.impl;
 
 import com.xxx.core.base.BaseAsyncService;
+import com.xxx.core.util.IdWorker;
 import com.xxx.web.dao.JooqDaoHolder;
 import com.xxx.web.jooq.tables.daos.TOrderDao;
 import com.xxx.web.jooq.tables.daos.TOrderItemDao;
 import com.xxx.web.jooq.tables.pojos.TOrder;
 import com.xxx.web.jooq.tables.pojos.TOrderItem;
+import com.xxx.web.jooq.tables.records.TOrderRecord;
 import com.xxx.web.service.OrderService;
 import com.xxx.web.util.PojoUtil;
 import io.vertx.core.AsyncResult;
@@ -14,11 +16,14 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import org.jooq.SortField;
+import org.jooq.UpdateQuery;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
+
 
 /**
  * @author Ian
@@ -111,14 +116,29 @@ public class OrderServiceImpl extends BaseAsyncService implements OrderService {
         TOrder tOrder = new TOrder(json);
         Future<Integer> future;
         if (json.containsKey("id") && null != json.getValue("id")) {
-            future = orderDao.update(tOrder);
+            future = orderDao.queryExecutor().executeAny(dslContext -> {
+                        UpdateQuery<TOrderRecord> updateQuery = dslContext.updateQuery(com.xxx.web.jooq.tables.TOrder.T_ORDER);
+                        Map<String, Object> map = new HashMap<>();
+                        if (null != tOrder.getName()) {
+                            map.put("name", tOrder.getName());
+                        }
+                        if (null != tOrder.getUserName()) {
+                            map.put("user_name", tOrder.getUserName());
+                        }
+                        updateQuery.addValues(map);
+                        updateQuery.addConditions(com.xxx.web.jooq.tables.TOrder.T_ORDER.ID.eq(tOrder.getId()));
+                        return updateQuery.execute();
+                    }
+            );
+            //修改所有字段
+//            future = orderDao.update(tOrder);
         } else {
-            tOrder.setId(new Random().nextLong());
-            future = orderDao.insert(tOrder.setCreateTime(LocalDateTime.now()));
+            tOrder.setId(IdWorker.getId()).setCreateTime(LocalDateTime.now());
+            future = orderDao.insert(tOrder);
         }
         future.onComplete(ar -> {
             if (ar.succeeded()) {
-                resultHandler.handle(Future.succeededFuture(json));
+                resultHandler.handle(Future.succeededFuture(tOrder.toJson()));
             } else {
                 handleException(ar.cause(), resultHandler);
             }
