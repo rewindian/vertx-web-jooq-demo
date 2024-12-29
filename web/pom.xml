@@ -14,7 +14,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.5.13</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
         <vertx-jooq.version>6.1.0</vertx-jooq.version>
         <hikari-cp.version>3.4.5</hikari-cp.version>
