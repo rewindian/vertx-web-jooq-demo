@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <vertx-jooq.version>6.1.0</vertx-jooq.version>
+        <vertx-jooq.version>6.5.1</vertx-jooq.version>
         <hikari-cp.version>3.4.5</hikari-cp.version>
         <mysql-driver.version>5.1.37</mysql-driver.version>
     </properties>
